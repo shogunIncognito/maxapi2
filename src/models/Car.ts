@@ -26,7 +26,7 @@ export class Car {
   @Prop({ required: true, default: '' })
   preview: string;
 
-  @Prop({ required: true })
+  @Prop({ default: '' })
   description: string;
 }
 
