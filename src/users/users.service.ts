@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/models/User';
@@ -10,19 +14,20 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUsers() {
-    return await this.userModel.find({});
+    return await this.userModel.find({}, { password: 0 });
   }
 
   async getUser(id: string) {
     try {
       return await this.userModel.findById(id);
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException('Error getting user');
     }
   }
 
   async getUserByName(name: string) {
-    return await this.userModel.findOne({ username: name });
+    return await this.userModel.findOne({ username: name }, { password: 0 });
   }
 
   async createUser(user: CreateUserDTO) {

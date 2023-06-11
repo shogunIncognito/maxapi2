@@ -21,7 +21,10 @@ export class AuthController {
       throw new UnauthorizedException('Invalid credentials');
 
     return this.authService.login({
-      ...existUser,
+      userId: existUser._id,
+      username: existUser.username,
+      role: existUser.role,
+      image: existUser.image,
     });
   }
 }

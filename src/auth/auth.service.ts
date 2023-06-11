@@ -17,15 +17,9 @@ export class AuthService {
 
   async login(user: UserToSign) {
     try {
-      const token = this.JwtServices.sign(
-        {
-          userId: user._id,
-          ...user,
-        },
-        {
-          secret: this.configService.get<string>('JWT_SECRET'),
-        },
-      );
+      const token = this.JwtServices.sign(user, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+      });
 
       return { token };
     } catch (error) {
