@@ -5,11 +5,13 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/models/User';
 import { UserToSign } from 'src/types';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private UserModel: Model<User>,
+    private configService: ConfigService,
     private JwtServices: JwtService,
   ) {}
 
@@ -21,7 +23,7 @@ export class AuthService {
           ...user,
         },
         {
-          secret: process.env.SECRET,
+          secret: this.configService.get<string>('JWT_SECRET'),
         },
       );
 
