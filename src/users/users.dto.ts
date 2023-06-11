@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsIn, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { Role } from 'src/enums';
 
 export class CreateUserDTO {
   @IsString()
@@ -20,6 +21,12 @@ export class UpdateUserDTO {
   @IsNotEmpty()
   @IsOptional()
   password: string;
+
+  @IsString()
+  @IsIn([Role.admin, Role.user])
+  @IsNotEmpty()
+  @IsOptional()
+  role: Role;
 
   @IsOptional()
   image: any;

@@ -28,13 +28,7 @@ export class CarsService {
 
   async createCar(car: CarDTO) {
     try {
-      // upload images...
-      // const images = uploadImages(car.images); --> ['www...', 'www....']
-      const newCar = {
-        ...car,
-        preview: car.images[0],
-      };
-      return await this.CarModel.create(newCar);
+      return await this.CarModel.create(car);
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error creating car');
@@ -43,8 +37,8 @@ export class CarsService {
 
   async updateCar(id: string, newCarValues: UpdateCarDTO) {
     try {
-      if (newCarValues?.images) {
-        //...
+      if (newCarValues.images) {
+        newCarValues.preview = newCarValues.images[0];
       }
       return await this.CarModel.findByIdAndUpdate(id, newCarValues, {
         new: true,

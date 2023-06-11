@@ -7,9 +7,12 @@ import {
   Param,
   Delete,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { AdminGuard } from 'src/guards/admin.guard';
 
 @Controller('cars')
 export class CarsController {
@@ -27,11 +30,13 @@ export class CarsController {
     return existCar;
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   async createCar(@Body() car: CarDTO) {
     return await this.carsServices.createCar(car);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async updateCar(@Param('id') id: string, @Body() car: UpdateCarDTO) {
     const existCar = await this.carsServices.getCar(id);
@@ -39,6 +44,7 @@ export class CarsController {
     return await this.carsServices.updateCar(id, car);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteCar(@Param('id') id: string) {
     const existCar = await this.carsServices.getCar(id);

@@ -28,10 +28,6 @@ export class CarDTO {
   @IsNotEmpty()
   price: number;
 
-  @IsArray()
-  @ArrayNotEmpty()
-  images: Array<File>;
-
   @IsString()
   @IsOptional()
   description: string;
@@ -61,7 +57,11 @@ export class UpdateCarDTO {
   @IsArray()
   @ArrayNotEmpty()
   @IsOptional()
-  images: Array<File>;
+  images: Array<string>;
+
+  @IsString()
+  @IsOptional()
+  preview: string;
 
   @IsString()
   @IsOptional()

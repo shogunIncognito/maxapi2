@@ -15,7 +15,7 @@ export class User {
   @Prop({ required: true, default: Role.user })
   role: Role;
 
-  @Prop({ required: true })
+  @Prop()
   image: string;
 }
 

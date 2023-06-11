@@ -14,12 +14,24 @@ export class UsersService {
   }
 
   async getUser(id: string) {
-    return await this.userModel.findById(id);
+    try {
+      return await this.userModel.findById(id);
+    } catch (error) {
+      throw new InternalServerErrorException('Error getting user');
+    }
+  }
+
+  async getUserByName(name: string) {
+    return await this.userModel.findOne({ username: name });
   }
 
   async createUser(user: CreateUserDTO) {
     try {
-      return await this.userModel.create(user);
+      const newUser = {
+        ...user,
+        password: await this.hashPassword(user.password),
+      };
+      return await this.userModel.create(newUser);
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error creating user');
@@ -27,15 +39,25 @@ export class UsersService {
   }
 
   async updateUser(id: string, newUserValues: UpdateUserDTO) {
-    newUserValues.password &&= await this.hashPassword(newUserValues.password);
-    if (newUserValues.image) {
-      //... upload image
+    try {
+      newUserValues.password &&= await this.hashPassword(
+        newUserValues.password,
+      );
+
+      return await this.userModel.findByIdAndUpdate(id, newUserValues);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error updating user');
     }
-    return await this.userModel.findByIdAndUpdate(id, newUserValues);
   }
 
   async deleteUser(id: string) {
-    return await this.userModel.findByIdAndDelete(id);
+    try {
+      return await this.userModel.findByIdAndDelete(id);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error deleting user');
+    }
   }
 
   async hashPassword(password: string) {

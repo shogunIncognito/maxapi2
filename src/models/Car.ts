@@ -20,10 +20,10 @@ export class Car {
   @Prop({ required: true })
   price: number;
 
-  @Prop({ required: true, default: [] })
+  @Prop({ default: [] })
   images: Array<string>;
 
-  @Prop({ required: true, default: '' })
+  @Prop({ default: '' })
   preview: string;
 
   @Prop({ default: '' })
