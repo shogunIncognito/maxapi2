@@ -37,6 +37,12 @@ export class CarsController {
   }
 
   @UseGuards(AuthGuard)
+  @Get(':id/images')
+  async getImages(@Param('id') id: string) {
+    return this.carsServices.getCarImages(id);
+  }
+
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async updateCar(@Param('id') id: string, @Body() car: UpdateCarDTO) {
     const existCar = await this.carsServices.getCar(id);

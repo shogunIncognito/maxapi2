@@ -26,6 +26,10 @@ export class CarsService {
     }
   }
 
+  async getCarImages(id: string) {
+    return await this.CarModel.findById(id).select('images');
+  }
+
   async createCar(car: CarDTO) {
     try {
       return await this.CarModel.create(car);
@@ -37,7 +41,7 @@ export class CarsService {
 
   async updateCar(id: string, newCarValues: UpdateCarDTO) {
     try {
-      if (newCarValues.images) {
+      if (newCarValues?.images) {
         newCarValues.preview = newCarValues.images[0];
       }
       return await this.CarModel.findByIdAndUpdate(id, newCarValues, {

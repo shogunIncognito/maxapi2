@@ -10,7 +10,6 @@ import { Role } from 'src/enums';
 export class AdminGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    console.log(request.user);
 
     if (request.user.role !== Role.admin)
       throw new UnauthorizedException(
