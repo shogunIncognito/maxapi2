@@ -19,7 +19,7 @@ export class UsersService {
 
   async getUser(id: string) {
     try {
-      return await this.userModel.findById(id);
+      return await this.userModel.findById(id, { password: 0 });
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error getting user');

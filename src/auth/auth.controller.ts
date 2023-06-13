@@ -1,6 +1,14 @@
-import { Body, Controller, Post, UnauthorizedException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Req,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDTO } from './auth.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +34,12 @@ export class AuthController {
       role: existUser.role,
       image: existUser.image,
     });
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('validate-password')
+  async validatePassword(@Body() body: { password: string }, @Req() req: any) {
+    const user = await this.authService.validUser(req.user.username);
+    return this.authService.validPassword(body.password, user.password);
   }
 }

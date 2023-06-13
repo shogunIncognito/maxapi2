@@ -23,11 +23,16 @@ export class CarsController {
     return await this.carsServices.getCars();
   }
 
-  @Get(':id')
-  async getCar(@Param('id') id: string) {
-    const existCar = await this.carsServices.getCar(id);
-    if (!existCar) throw new NotFoundException('Car not found');
-    return existCar;
+  @UseGuards(AuthGuard, AdminGuard)
+  @Post('brands')
+  async createBrand(@Body() brand: string) {
+    return await this.carsServices.createBrand(brand);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('brands')
+  async getBrands() {
+    return await this.carsServices.getBrands();
   }
 
   @UseGuards(AuthGuard)
@@ -40,6 +45,13 @@ export class CarsController {
   @Get(':id/images')
   async getImages(@Param('id') id: string) {
     return this.carsServices.getCarImages(id);
+  }
+
+  @Get(':id')
+  async getCar(@Param('id') id: string) {
+    const existCar = await this.carsServices.getCar(id);
+    if (!existCar) throw new NotFoundException('Car not found');
+    return existCar;
   }
 
   @UseGuards(AuthGuard)

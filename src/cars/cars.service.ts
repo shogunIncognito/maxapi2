@@ -3,10 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Car } from 'src/models/Car';
 import { CarDTO, UpdateCarDTO } from './car.dto';
+import { Brand } from 'src/models/Brands';
 
 @Injectable()
 export class CarsService {
-  constructor(@InjectModel(Car.name) private CarModel: Model<Car>) {}
+  constructor(
+    @InjectModel(Car.name) private CarModel: Model<Car>,
+    @InjectModel(Brand.name) private BrandModel: Model<Brand>,
+  ) {}
 
   async getCars() {
     try {
@@ -59,6 +63,24 @@ export class CarsService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error deleting car');
+    }
+  }
+
+  async createBrand(brand: string) {
+    try {
+      return await this.BrandModel.create({ name: brand });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error creating brand');
+    }
+  }
+
+  async getBrands() {
+    try {
+      return await this.BrandModel.find({});
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting brands');
     }
   }
 }
