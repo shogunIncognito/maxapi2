@@ -8,6 +8,7 @@ import {
   Delete,
   NotFoundException,
   UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
@@ -25,8 +26,12 @@ export class CarsController {
 
   @UseGuards(AuthGuard, AdminGuard)
   @Post('brands')
-  async createBrand(@Body() brand: string) {
-    return await this.carsServices.createBrand(brand);
+  async createBrand(@Body() brand: { brand: string }) {
+    const existBrand = await this.carsServices.getBrandByName(brand.brand);
+    console.log(existBrand);
+
+    if (existBrand) throw new BadRequestException('Brand already exist');
+    return await this.carsServices.createBrand(brand.brand);
   }
 
   @UseGuards(AuthGuard)
@@ -36,9 +41,25 @@ export class CarsController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('brands/:id')
+  async getBrand(@Param('id') id: string) {
+    const brand = await this.carsServices.getBrandById(id);
+    if (!brand) throw new NotFoundException('Brand not found');
+    return brand;
+  }
+
+  @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async createCar(@Body() car: CarDTO) {
     return await this.carsServices.createCar(car);
+  }
+
+  @UseGuards(AuthGuard, AdminGuard)
+  @Delete('brands/:name')
+  async deleteBrand(@Param('name') name: string) {
+    const existBrand = await this.carsServices.getBrandByName(name);
+    if (!existBrand) throw new NotFoundException('Brand not found');
+    return this.carsServices.deleteBrand(name);
   }
 
   @UseGuards(AuthGuard)

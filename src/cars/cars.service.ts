@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Car } from 'src/models/Car';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { Brand } from 'src/models/Brands';
+import { upperText } from 'src/utils/upperText';
 
 @Injectable()
 export class CarsService {
@@ -68,10 +69,20 @@ export class CarsService {
 
   async createBrand(brand: string) {
     try {
-      return await this.BrandModel.create({ name: brand });
+      const name = upperText(brand);
+      return await this.BrandModel.create({ name });
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error creating brand');
+    }
+  }
+
+  async deleteBrand(name: string) {
+    try {
+      return await this.BrandModel.findOneAndDelete({ name });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error deleting brand');
     }
   }
 
@@ -81,6 +92,25 @@ export class CarsService {
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error getting brands');
+    }
+  }
+
+  async getBrandById(id: string) {
+    try {
+      return await this.BrandModel.findById(id);
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting brand');
+    }
+  }
+
+  async getBrandByName(name: string) {
+    try {
+      const upperBrand = upperText(name);
+      return await this.BrandModel.findOne({ name: upperBrand });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting brand');
     }
   }
 }
