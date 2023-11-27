@@ -14,7 +14,7 @@ export class CarDTO {
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  line: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -31,39 +31,112 @@ export class CarDTO {
   @IsString()
   @IsOptional()
   description: string;
-}
 
-export class UpdateCarDTO {
-  @IsString()
-  @IsOptional()
-  brand: string;
+  @IsNumber()
+  @IsNotEmpty()
+  cc: number;
 
   @IsString()
-  @IsOptional()
-  name: string;
+  @IsNotEmpty()
+  fuel: string;
+
+  @IsString()
+  @IsNotEmpty()
+  transmission: string;
+
+  @IsString()
+  @IsNotEmpty()
+  type: string;
 
   @IsNumber()
-  @IsOptional()
-  model: number;
+  @IsNotEmpty()
+  owners: number;
 
-  @IsNumber()
-  @IsOptional()
-  kilometers: number;
+  @IsString()
+  @IsNotEmpty()
+  plate: string;
 
-  @IsNumber()
-  @IsOptional()
-  price: number;
-
-  @IsArray()
-  @ArrayNotEmpty()
-  @IsOptional()
-  images: Array<string>;
+  @IsString()
+  @IsNotEmpty()
+  color: string;
 
   @IsString()
   @IsOptional()
   preview: string;
+}
 
+export class UpdateCarDTO {
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  brand: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  line: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsNotEmpty()
+  model: number;
+
+  @IsOptional()
+  @IsNumber()
+  @IsNotEmpty()
+  kilometers: number;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  images: Array<string>;
+
+  @IsOptional()
+  @IsNumber()
+  @IsNotEmpty()
+  price: number;
+
+  @IsOptional()
   @IsString()
   @IsOptional()
   description: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsNotEmpty()
+  cc: number;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  fuel: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  transmission: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  type: string;
+
+  @IsOptional()
+  @IsNumber()
+  @IsNotEmpty()
+  owners: number;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  plate: string;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  color: string;
+
+  @IsOptional()
+  @IsString()
+  preview: string;
 }

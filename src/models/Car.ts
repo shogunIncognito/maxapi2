@@ -9,25 +9,46 @@ export class Car {
   brand: string;
 
   @Prop({ required: true })
-  name: string;
+  model: number;
+
+  @Prop({ default: '' })
+  description: string;
 
   @Prop({ required: true })
-  model: number;
+  line: string;
 
   @Prop({ required: true })
   kilometers: number;
 
-  @Prop({ required: true })
-  price: number;
-
   @Prop({ default: [] })
   images: Array<string>;
+
+  @Prop({ required: true })
+  price: number;
 
   @Prop({ default: '' })
   preview: string;
 
-  @Prop({ default: '' })
-  description: string;
+  @Prop({ required: true })
+  fuel: string;
+
+  @Prop({ required: true })
+  transmission: string;
+
+  @Prop({ required: true })
+  cc: number;
+
+  @Prop({ required: true })
+  type: string;
+
+  @Prop({ required: true })
+  owners: number;
+
+  @Prop({ required: true })
+  plate: string;
+
+  @Prop({ required: true })
+  color: string;
 }
 
 export const CarSchema = SchemaFactory.createForClass(Car);

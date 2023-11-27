@@ -4,6 +4,9 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   index() {
-    return { msg: 'This is the API root' };
+    return {
+      msg: 'This is the MaxAutos Api root',
+      routes: ['/api/cars'],
+    };
   }
 }
