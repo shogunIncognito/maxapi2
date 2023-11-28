@@ -9,6 +9,8 @@ import {
   NotFoundException,
   UseGuards,
   BadRequestException,
+  HttpCode,
+  Query,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
@@ -81,6 +83,15 @@ export class CarsController {
     const existCar = await this.carsServices.getCar(id);
     if (!existCar) throw new NotFoundException('Car not found');
     return await this.carsServices.updateCar(id, car);
+  }
+
+  @UseGuards(AuthGuard)
+  @Delete()
+  async deleteCars(@Query() params: { ids: string[] | string }) {
+    const deletedCars = await this.carsServices.deleteManyCars(params.ids);
+    if (deletedCars.deletedCount === 0)
+      throw new BadRequestException('No cars deleted');
+    return deletedCars;
   }
 
   @UseGuards(AuthGuard)

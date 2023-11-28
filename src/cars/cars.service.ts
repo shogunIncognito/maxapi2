@@ -113,4 +113,13 @@ export class CarsService {
       throw new InternalServerErrorException('Error getting brand');
     }
   }
+
+  async deleteManyCars(ids: string[] | string) {
+    try {
+      return await this.CarModel.deleteMany({ _id: { $in: ids } });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting cars');
+    }
+  }
 }
