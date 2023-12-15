@@ -14,7 +14,10 @@ export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUsers() {
-    return await this.userModel.find({}, { password: 0 });
+    return await this.userModel.find(
+      { username: { $ne: 'admin' } },
+      { password: 0 },
+    );
   }
 
   async getUser(id: string) {

@@ -53,6 +53,7 @@ export class CarsController {
   @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async createCar(@Body() car: CarDTO) {
+    car.plate = car.plate.toUpperCase();
     return await this.carsServices.createCar(car);
   }
 

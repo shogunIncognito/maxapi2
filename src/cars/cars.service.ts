@@ -46,9 +46,6 @@ export class CarsService {
 
   async updateCar(id: string, newCarValues: UpdateCarDTO) {
     try {
-      if (newCarValues?.images) {
-        newCarValues.preview = newCarValues.images[0];
-      }
       return await this.CarModel.findByIdAndUpdate(id, newCarValues, {
         new: true,
       });
