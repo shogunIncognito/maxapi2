@@ -23,7 +23,7 @@ export class AuthService {
 
       return { token };
     } catch (error) {
-      console.log('HEYYYYYYYY ERROR', error);
+      console.log(error);
       throw new InternalServerErrorException('Error signing token');
     }
   }

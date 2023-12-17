@@ -59,6 +59,15 @@ export class UsersService {
     }
   }
 
+  async updateUserImage(id: string, image: string) {
+    try {
+      return await this.userModel.findByIdAndUpdate(id, { image });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error updating user image');
+    }
+  }
+
   async deleteUser(id: string) {
     try {
       return await this.userModel.findByIdAndDelete(id);

@@ -19,6 +19,7 @@ export class AuthController {
     const { username, password } = user;
 
     const existUser = await this.authService.validUser(username);
+
     if (!existUser) throw new UnauthorizedException('Invalid credentials');
 
     const isPasswordCorrect = await this.authService.validPassword(
@@ -29,7 +30,7 @@ export class AuthController {
       throw new UnauthorizedException('Invalid credentials');
 
     return this.authService.login({
-      userId: existUser._id,
+      _id: existUser._id,
       username: existUser.username,
       role: existUser.role,
       image: existUser.image,

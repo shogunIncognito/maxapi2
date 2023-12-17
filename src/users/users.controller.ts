@@ -59,6 +59,15 @@ export class UsersController {
     return await this.usersService.updateUser(id, newUserValues);
   }
 
+  @UseGuards(AuthGuard)
+  @Patch(':id/image')
+  async updateImage(@Param('id') id: string, @Body() values: UpdateUserDTO) {
+    const user = await this.usersService.getUser(id);
+    if (!user) throw new NotFoundException('User not found');
+
+    return await this.usersService.updateUserImage(id, values.image);
+  }
+
   @UseGuards(AuthGuard, AdminGuard)
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
