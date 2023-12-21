@@ -21,7 +21,7 @@ export class AuthService {
         secret: this.configService.get<string>('JWT_SECRET'),
       });
 
-      return { token };
+      return { token, ...user };
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error signing token');
