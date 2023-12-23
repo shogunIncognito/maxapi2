@@ -16,7 +16,10 @@ import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AdminGuard } from 'src/guards/admin.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Cars')
 @Controller('cars')
 export class CarsController {
   constructor(private carsServices: CarsService) {}
@@ -65,7 +68,6 @@ export class CarsController {
     return this.carsServices.deleteBrand(name);
   }
 
-  @UseGuards(AuthGuard)
   @Get(':id/images')
   async getImages(@Param('id') id: string) {
     return this.carsServices.getCarImages(id);

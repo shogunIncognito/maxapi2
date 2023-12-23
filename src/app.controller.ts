@@ -6,7 +6,7 @@ export class AppController {
   index() {
     return {
       msg: 'This is the MaxAutos Api root',
-      routes: ['/api/cars'],
+      documentation: '/docs',
     };
   }
 }
