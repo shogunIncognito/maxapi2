@@ -16,7 +16,7 @@ import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AdminGuard } from 'src/guards/admin.guard';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @ApiTags('Cars')
@@ -24,6 +24,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class CarsController {
   constructor(private carsServices: CarsService) {}
 
+  @ApiResponse({ status: 200, description: 'Get all cars' })
   @Get()
   async getCars() {
     return await this.carsServices.getCars();
