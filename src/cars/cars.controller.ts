@@ -16,7 +16,13 @@ import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AdminGuard } from 'src/guards/admin.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiParam,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @ApiTags('Cars')
@@ -24,12 +30,22 @@ import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class CarsController {
   constructor(private carsServices: CarsService) {}
 
-  @ApiResponse({ status: 200, description: 'Get all cars' })
+  @ApiResponse({ status: 200, description: 'Get all cars', type: [CarDTO] })
   @Get()
   async getCars() {
     return await this.carsServices.getCars();
   }
 
+  @ApiResponse({
+    status: 201,
+    description: 'Create a new brand',
+    schema: {
+      example: {
+        brand: 'BMW',
+      },
+    },
+  })
+  @HttpCode(201)
   @UseGuards(AuthGuard, AdminGuard)
   @Post('brands')
   async createBrand(@Body() brand: { brand: string }) {
@@ -40,12 +56,17 @@ export class CarsController {
     return await this.carsServices.createBrand(brand.brand);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Get all brands',
+  })
   @UseGuards(AuthGuard)
   @Get('brands')
   async getBrands() {
     return await this.carsServices.getBrands();
   }
 
+  @ApiResponse({ status: 200, description: 'Get brand by id' })
   @UseGuards(AuthGuard)
   @Get('brands/:id')
   async getBrand(@Param('id') id: string) {
@@ -54,6 +75,8 @@ export class CarsController {
     return brand;
   }
 
+  @ApiResponse({ status: 201, description: 'Create a new car' })
+  @HttpCode(201)
   @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async createCar(@Body() car: CarDTO) {
@@ -61,6 +84,7 @@ export class CarsController {
     return await this.carsServices.createCar(car);
   }
 
+  @ApiResponse({ status: 200, description: 'Delete a car' })
   @UseGuards(AuthGuard, AdminGuard)
   @Delete('brands/:name')
   async deleteBrand(@Param('name') name: string) {
@@ -69,11 +93,13 @@ export class CarsController {
     return this.carsServices.deleteBrand(name);
   }
 
+  @ApiResponse({ status: 200, description: 'Get car images' })
   @Get(':id/images')
   async getImages(@Param('id') id: string) {
     return this.carsServices.getCarImages(id);
   }
 
+  @ApiResponse({ status: 200, description: 'Get car by id' })
   @Get(':id')
   async getCar(@Param('id') id: string) {
     const existCar = await this.carsServices.getCar(id);
@@ -81,6 +107,7 @@ export class CarsController {
     return existCar;
   }
 
+  @ApiResponse({ status: 200, description: 'Update a car' })
   @UseGuards(AuthGuard)
   @Patch(':id')
   async updateCar(@Param('id') id: string, @Body() car: UpdateCarDTO) {
@@ -89,6 +116,11 @@ export class CarsController {
     return await this.carsServices.updateCar(id, car);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Delete many cars with an array of ids',
+  })
+  @ApiParam({ name: 'ids', type: 'string', example: 'ids=1,ids=2,ids=3' })
   @UseGuards(AuthGuard)
   @Delete()
   async deleteCars(@Query() params: { ids: string[] | string }) {
