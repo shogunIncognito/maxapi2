@@ -1,8 +1,12 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
+import { JsonWebTokenError, JwtService } from '@nestjs/jwt';
 import { User } from 'src/models/User';
 import { UserToSign } from 'src/types';
 import { ConfigService } from '@nestjs/config';
@@ -36,5 +40,20 @@ export class AuthService {
 
   async validPassword(password: string, hashedPassword: string) {
     return await bcrypt.compare(password, hashedPassword);
+  }
+
+  async validateToken(token: string) {
+    try {
+      const user = this.JwtServices.verify(token, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+      });
+
+      return user;
+    } catch (error) {
+      if (error instanceof JsonWebTokenError) {
+        throw new BadRequestException('Invalid token');
+      }
+      throw new InternalServerErrorException('Error validating token');
+    }
   }
 }

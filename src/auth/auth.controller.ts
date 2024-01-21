@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDTO } from './auth.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -37,6 +37,12 @@ export class AuthController {
       role: existUser.role,
       image: existUser.image,
     });
+  }
+
+  @ApiBody({ schema: { example: { token: 'd789as7d9as7ddas' } } })
+  @Post('validate-token')
+  async validateToken(@Body() body: { token: string }) {
+    return await this.authService.validateToken(body.token);
   }
 
   @UseGuards(AuthGuard)
