@@ -35,8 +35,9 @@ export class CarsService {
     return await this.CarModel.findById(id).select('images');
   }
 
-  async createCar(car: CarDTO) {
+  async createCar(car: CarDTO | CarDTO[]) {
     try {
+      if (car instanceof Array) return await this.CarModel.insertMany(car);
       return await this.CarModel.create(car);
     } catch (error) {
       console.log(error);

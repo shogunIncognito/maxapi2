@@ -73,8 +73,7 @@ export class CarsController {
   @HttpCode(201)
   @UseGuards(AuthGuard, AdminGuard)
   @Post()
-  async createCar(@Body() car: CarDTO) {
-    car.plate = car.plate.toUpperCase();
+  async createCar(@Body() car: CarDTO | CarDTO[]) {
     return await this.carsServices.createCar(car);
   }
 
