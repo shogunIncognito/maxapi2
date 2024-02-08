@@ -42,12 +42,11 @@ export class CarsController {
   @HttpCode(201)
   @UseGuards(AuthGuard, AdminGuard)
   @Post('brands')
-  async createBrand(@Body() brand: { brand: string }) {
-    const existBrand = await this.carsServices.getBrandByName(brand.brand);
-    console.log(existBrand);
+  async createBrand(@Body() brand: { name: string }) {
+    const existBrand = await this.carsServices.getBrandByName(brand.name);
 
     if (existBrand) throw new BadRequestException('Brand already exist');
-    return await this.carsServices.createBrand(brand.brand);
+    return await this.carsServices.createBrand(brand.name);
   }
 
   @ApiResponse({
