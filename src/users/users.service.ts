@@ -1,7 +1,7 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -48,13 +48,25 @@ export class UsersService {
 
   async updateUser(id: string, newUserValues: UpdateUserDTO) {
     try {
-      newUserValues.password &&= await this.hashPassword(
-        newUserValues.password,
-      );
+      if (newUserValues.password) {
+        const { password, currentPassword } = newUserValues;
+
+        const user = await this.userModel.findById(id);
+        const isPasswordCorrect = await bcrypt.compare(
+          currentPassword,
+          user.password,
+        );
+
+        if (!isPasswordCorrect) throw new Error('Invalid password to update');
+
+        newUserValues.password = await this.hashPassword(password);
+      }
 
       return await this.userModel.findByIdAndUpdate(id, newUserValues);
     } catch (error) {
       console.log(error);
+      if (error.message === 'Invalid password to update')
+        throw new BadRequestException(error.message);
       throw new InternalServerErrorException('Error updating user');
     }
   }

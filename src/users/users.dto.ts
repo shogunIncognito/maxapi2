@@ -23,6 +23,11 @@ export class UpdateUserDTO {
   password: string;
 
   @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  currentPassword: string;
+
+  @IsString()
   @IsIn([Role.admin, Role.user])
   @IsNotEmpty()
   @IsOptional()
