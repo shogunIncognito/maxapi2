@@ -40,7 +40,7 @@ export class CarsController {
     },
   })
   @HttpCode(201)
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards(AuthGuard)
   @Post('brands')
   async createBrand(@Body() brand: { name: string }) {
     const existBrand = await this.carsServices.getBrandByName(brand.name);
@@ -70,14 +70,14 @@ export class CarsController {
 
   @ApiResponse({ status: 201, description: 'Create a new car' })
   @HttpCode(201)
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards(AuthGuard)
   @Post()
   async createCar(@Body() car: CarDTO | CarDTO[]) {
     return await this.carsServices.createCar(car);
   }
 
   @ApiResponse({ status: 200, description: 'Delete a car' })
-  @UseGuards(AuthGuard, AdminGuard)
+  @UseGuards(AuthGuard)
   @Delete('brands/:name')
   async deleteBrand(@Param('name') name: string) {
     const existBrand = await this.carsServices.getBrandByName(name);
