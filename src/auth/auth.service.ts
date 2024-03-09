@@ -48,7 +48,9 @@ export class AuthService {
         secret: this.configService.get<string>('JWT_SECRET'),
       });
 
-      return user;
+      const userImage = await this.UserModel.findById(user._id);
+
+      return { ...user, image: userImage.image };
     } catch (error) {
       if (error instanceof JsonWebTokenError) {
         throw new BadRequestException('Invalid token');
