@@ -38,6 +38,7 @@ export class UsersService {
       const newUser = {
         ...user,
         password: await this.hashPassword(user.password),
+        image: null,
       };
       return await this.userModel.create(newUser);
     } catch (error) {
