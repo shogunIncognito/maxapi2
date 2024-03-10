@@ -15,7 +15,7 @@ export class CarsService {
 
   async getCars() {
     try {
-      return await this.CarModel.find({}).sort({ updatedAt: -1 });
+      return await this.CarModel.find({}).sort({ createdAt: -1 });
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error getting cars');
