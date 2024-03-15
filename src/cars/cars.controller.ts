@@ -129,4 +129,15 @@ export class CarsController {
     if (!existCar) throw new NotFoundException('Car not found');
     return await this.carsServices.deleteCar(id);
   }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id/images')
+  async deleteCarImages(
+    @Param('id') id: string,
+    @Body() { images }: { images: string[] },
+  ) {
+    const existCar = await this.carsServices.getCar(id);
+    if (!existCar) throw new NotFoundException('Car not found');
+    return await this.carsServices.deleteCarImages(id, images, existCar);
+  }
 }

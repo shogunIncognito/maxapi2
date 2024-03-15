@@ -120,4 +120,31 @@ export class CarsService {
       throw new InternalServerErrorException('Error getting cars');
     }
   }
+
+  async deleteCarImages(carId: string, images: string[], car: Car) {
+    try {
+      const result = await this.CarModel.findByIdAndUpdate(
+        carId,
+        {
+          $pull: { images: { $in: images } },
+        },
+        { new: true },
+      );
+
+      if (images.includes(car.preview)) {
+        return await this.CarModel.findByIdAndUpdate(
+          carId,
+          {
+            preview: '',
+          },
+          { new: true },
+        );
+      }
+
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error deleting images');
+    }
+  }
 }
