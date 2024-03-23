@@ -16,7 +16,6 @@ export class StatsController {
     return this.statsServices.getStats();
   }
 
-  @UseGuards(AuthGuard, AdminGuard)
   @Post()
   async addView() {
     return this.statsServices.addView();
