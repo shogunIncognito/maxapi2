@@ -64,6 +64,7 @@ export class StatsService {
       return stats.save();
     }
 
-    return this.statsModel.create({ year, month, day, views: 1 });
+    this.statsModel.create({ year, month, day, views: 1 });
+    return;
   }
 }
