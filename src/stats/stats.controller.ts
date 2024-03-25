@@ -16,7 +16,7 @@ export class StatsController {
     return this.statsServices.getStats();
   }
 
-  @HttpCode(201)
+  @HttpCode(204)
   @Post()
   async addView() {
     return this.statsServices.addView();

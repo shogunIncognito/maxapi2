@@ -17,8 +17,6 @@ async function bootstrap() {
 
   const options = {
     origin: function (origin, callback) {
-      console.log(origin);
-
       if (allowedDomains.indexOf(origin) !== -1 || !origin) {
         callback(null, true);
         return;

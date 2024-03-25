@@ -9,8 +9,16 @@ export class StatsService {
   constructor(@InjectModel(Stats.name) private statsModel: Model<Stats>) {}
   async getStats() {
     const date = new Date();
-    const year = date.getFullYear();
-    const month = months[date.getMonth()];
+
+    const [, monthNum, year] = new Intl.DateTimeFormat('es-CO', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+      .format(date)
+      .split('/');
+
+    const month = months[parseInt(monthNum) - 1];
 
     const monthsViewsGroup = await this.statsModel.aggregate([
       {
@@ -54,14 +62,23 @@ export class StatsService {
 
   async addView() {
     const date = new Date();
-    const year = date.getFullYear();
-    const month = months[date.getMonth()];
-    const day = date.getDate();
+
+    const [day, monthNum, year] = new Intl.DateTimeFormat('es-CO', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+      .format(date)
+      .split('/');
+
+    const month = months[parseInt(monthNum) - 1];
+
     const stats = await this.statsModel.findOne({ year, month, day });
 
     if (stats) {
       stats.views += 1;
-      return stats.save();
+      stats.save();
+      return;
     }
 
     this.statsModel.create({ year, month, day, views: 1 });
