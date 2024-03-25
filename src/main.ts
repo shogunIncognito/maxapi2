@@ -4,7 +4,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-const allowedDomains = ['https://maxautos.vercel.app'];
+const allowedDomains = [
+  'https://maxautos.vercel.app',
+  'https://maxpanel.vercel.app',
+  'http://localhost:3000',
+];
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
