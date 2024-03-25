@@ -10,7 +10,7 @@ export class StatsService {
   async getStats() {
     const date = new Date();
 
-    const [, monthNum, year] = new Intl.DateTimeFormat('es-CO', {
+    const [, monthNum, yearStr] = new Intl.DateTimeFormat('es-CO', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -19,6 +19,7 @@ export class StatsService {
       .split('/');
 
     const month = months[parseInt(monthNum) - 1];
+    const year = parseInt(yearStr);
 
     const monthsViewsGroup = await this.statsModel.aggregate([
       {
@@ -63,7 +64,7 @@ export class StatsService {
   async addView() {
     const date = new Date();
 
-    const [day, monthNum, year] = new Intl.DateTimeFormat('es-CO', {
+    const [day, monthNum, yearStr] = new Intl.DateTimeFormat('es-CO', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
@@ -72,6 +73,7 @@ export class StatsService {
       .split('/');
 
     const month = months[parseInt(monthNum) - 1];
+    const year = parseInt(yearStr);
 
     const stats = await this.statsModel.findOne({ year, month, day });
 
