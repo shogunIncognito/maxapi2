@@ -10,7 +10,12 @@ async function bootstrap() {
   const PORT = configService.get<string>('PORT') || 3000;
 
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
+  app.enableCors({
+    origin: ['https://maxpanel.vercel.app'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
   app.setGlobalPrefix('/api');
 
   const config = new DocumentBuilder()
