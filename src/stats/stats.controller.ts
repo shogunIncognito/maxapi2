@@ -1,4 +1,11 @@
-import { Controller, Get, HttpCode, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { StatsService } from './stats.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AdminGuard } from 'src/guards/admin.guard';
@@ -18,7 +25,7 @@ export class StatsController {
 
   @HttpCode(204)
   @Post()
-  async addView() {
-    return this.statsServices.addView();
+  async addView(@Body('time') time: number) {
+    return this.statsServices.addView(time);
   }
 }

@@ -61,15 +61,13 @@ export class StatsService {
     return { viewsMonths, daysMonthViews };
   }
 
-  async addView() {
-    const date = new Date();
-
+  async addView(dateTime: number) {
     const [day, monthNum, yearStr] = new Intl.DateTimeFormat('es-CO', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
     })
-      .format(date)
+      .format(dateTime)
       .split('/');
 
     const month = months[parseInt(monthNum) - 1];
