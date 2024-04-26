@@ -34,7 +34,7 @@ export class AuthService {
 
   async validUser(username: string) {
     return await this.UserModel.findOne({
-      username: username.toLowerCase(),
+      username,
     });
   }
 
