@@ -49,6 +49,9 @@ export class Car {
 
   @Prop({ required: true })
   color: string;
+
+  @Prop({ default: false })
+  show: boolean;
 }
 
 export const CarSchema = SchemaFactory.createForClass(Car);
