@@ -5,6 +5,7 @@ import { Car } from 'src/models/Car';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { Brand } from 'src/models/Brands';
 import { upperText } from 'src/utils/upperText';
+import { QueryCar } from 'src/types';
 
 @Injectable()
 export class CarsService {
@@ -13,9 +14,47 @@ export class CarsService {
     @InjectModel(Brand.name) private BrandModel: Model<Brand>,
   ) {}
 
-  async getCars() {
+  async getCars(query: QueryCar) {
     try {
-      return await this.CarModel.find({}).sort({ createdAt: -1 });
+      const searchTerms = query.search?.split(' ');
+
+      const keyword = query.search
+        ? {
+            $and: searchTerms.map((term) => ({
+              $or: [
+                { brand: { $regex: term, $options: 'i' } },
+                { line: { $regex: term, $options: 'i' } },
+                { color: { $regex: term, $options: 'i' } },
+                { plate: { $regex: term, $options: 'i' } },
+                { model: isNaN(Number(term)) ? null : term },
+              ],
+            })),
+          }
+        : {};
+
+      const page = Number(query.page) || 1;
+      const limit = Number(query.limit) || 10;
+      const show = query.show ? query.show === 'true' : true; // si no se manda show, se deja por defecto true
+
+      const result = await this.CarModel.find({ ...keyword, show })
+        .limit(limit)
+        .skip(limit * (page - 1))
+        .sort({ createdAt: -1 });
+
+      const totalPages = Math.ceil(
+        (await this.CarModel.countDocuments({ ...keyword, show })) / limit,
+      );
+
+      return { result, totalPages, currentPage: page };
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting cars');
+    }
+  }
+
+  async getAllCars() {
+    try {
+      return await this.CarModel.find({});
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error getting cars');

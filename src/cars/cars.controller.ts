@@ -17,6 +17,7 @@ import { CarDTO, UpdateCarDTO } from './car.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { QueryCar } from 'src/types';
 
 @ApiBearerAuth()
 @ApiTags('Cars')
@@ -24,10 +25,20 @@ import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 export class CarsController {
   constructor(private carsServices: CarsService) {}
 
-  @ApiResponse({ status: 200, description: 'Get all cars', type: [CarDTO] })
+  @ApiResponse({
+    status: 200,
+    description: 'Get cars with pagination',
+    type: [CarDTO],
+  })
   @Get()
-  async getCars() {
-    return await this.carsServices.getCars();
+  async getCars(@Query() query: QueryCar) {
+    return await this.carsServices.getCars(query);
+  }
+
+  @ApiResponse({ status: 200, description: 'Get all cars' })
+  @Get('all')
+  async getAllCars() {
+    return await this.carsServices.getAllCars();
   }
 
   @ApiResponse({

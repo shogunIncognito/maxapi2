@@ -6,3 +6,10 @@ export interface UserToSign {
   role: Role;
   image?: string;
 }
+
+export interface QueryCar {
+  page: number;
+  limit: number;
+  search?: string;
+  show?: string;
+}

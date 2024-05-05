@@ -4,6 +4,8 @@ import {
   IsNotEmpty,
   IsString,
   IsOptional,
+  IsNumber,
+  IsBoolean,
 } from 'class-validator';
 
 export class CarDTO {
