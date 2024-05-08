@@ -18,19 +18,29 @@ export class CarsService {
     try {
       const searchTerms = query.search?.split(' ');
 
-      const keyword = query.search
-        ? {
-            $and: searchTerms.map((term) => ({
-              $or: [
-                { brand: { $regex: term, $options: 'i' } },
-                { line: { $regex: term, $options: 'i' } },
-                { color: { $regex: term, $options: 'i' } },
-                { plate: { $regex: term, $options: 'i' } },
-                { model: isNaN(Number(term)) ? null : term },
-              ],
-            })),
-          }
-        : {};
+      // esto podria ser "search='example' o e.g "model=2020"
+      const [filterType, filterValue] = Object.entries(query)[2] || [];
+
+      const keyword =
+        filterType === undefined || !filterValue
+          ? {}
+          : filterType === 'search'
+          ? {
+              $and: searchTerms.map((term) => ({
+                $or: [
+                  { brand: { $regex: term, $options: 'i' } },
+                  { line: { $regex: term, $options: 'i' } },
+                  { color: { $regex: term, $options: 'i' } },
+                  { plate: { $regex: term, $options: 'i' } },
+                  { model: isNaN(Number(term)) ? null : term },
+                ],
+              })),
+            }
+          : {
+              [filterType]: isNaN(Number(filterValue))
+                ? { $regex: filterValue, $options: 'i' }
+                : Number(filterValue),
+            };
 
       const page = Number(query.page) || 1;
       const limit = Number(query.limit) || 10;
