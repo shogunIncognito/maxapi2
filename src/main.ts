@@ -7,7 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 const allowedDomains = [
   'https://maxautos.vercel.app',
   'https://maxpanel.vercel.app',
-  "https://panel-maxapp-pgrado-t3nc.vercel.app"
+  'https://panel-maxapp-pgrado-t3nc.vercel.app',
   'http://localhost:3000',
 ];
 
