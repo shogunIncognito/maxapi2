@@ -8,6 +8,7 @@ const allowedDomains = [
   'https://maxautos.vercel.app',
   'https://maxpanel.vercel.app',
   'https://panel-maxapp-pgrado-t3nc.vercel.app',
+  'https://landing-page-maxautos-3xr7.vercel.app',
   'http://localhost:3000',
 ];
 
