@@ -44,15 +44,21 @@ export class CarsService {
 
       const page = Number(query.page) || 1;
       const limit = Number(query.limit) || 10;
-      const show = query.show ? query.show === 'true' : true; // si no se manda show, se deja por defecto true
 
-      const result = await this.CarModel.find({ ...keyword, show })
+      const filter = {
+        ...keyword,
+        show: query.show ? query.show === 'true' : true,
+      };
+
+      if (!query.show) delete filter.show;
+
+      const result = await this.CarModel.find(filter)
         .limit(limit)
         .skip(limit * (page - 1))
         .sort({ createdAt: -1 });
 
       const totalPages = Math.ceil(
-        (await this.CarModel.countDocuments({ ...keyword, show })) / limit,
+        (await this.CarModel.countDocuments(filter)) / limit,
       );
 
       return { result, totalPages, currentPage: page };
