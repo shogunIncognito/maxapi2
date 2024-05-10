@@ -10,6 +10,7 @@ const allowedDomains = [
   'https://panel-maxapp-pgrado-t3nc.vercel.app',
   'https://landing-page-maxautos-3xr7.vercel.app',
   'http://localhost:3000',
+  'http://localhost:5173',
 ];
 
 async function bootstrap() {
