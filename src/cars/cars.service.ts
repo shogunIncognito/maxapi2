@@ -19,7 +19,8 @@ export class CarsService {
       const searchTerms = query.search?.split(' ');
 
       // esto podria ser "search='example' o e.g "model=2020"
-      const [filterType, filterValue] = Object.entries(query)[2] || [];
+      const [filterType, filterValue] =
+        Object.entries(query)[3] || Object.entries(query)[2] || [];
 
       const keyword =
         filterType === undefined || !filterValue
