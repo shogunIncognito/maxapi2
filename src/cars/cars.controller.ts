@@ -70,6 +70,11 @@ export class CarsController {
     return await this.carsServices.getBrands();
   }
 
+  @Get('brands/available')
+  async getAvailableBrands() {
+    return await this.carsServices.getAvailableBrands();
+  }
+
   @ApiResponse({ status: 200, description: 'Get brand by id' })
   @UseGuards(AuthGuard)
   @Get('brands/:id')

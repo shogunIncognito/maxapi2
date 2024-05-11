@@ -149,6 +149,15 @@ export class CarsService {
     }
   }
 
+  async getAvailableBrands() {
+    try {
+      return await this.CarModel.distinct('brand');
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting brands');
+    }
+  }
+
   async getBrandById(id: string) {
     try {
       return await this.BrandModel.findById(id);
