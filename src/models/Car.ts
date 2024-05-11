@@ -11,9 +11,6 @@ export class Car {
   @Prop({ required: true })
   model: number;
 
-  @Prop({ default: '' })
-  description: string;
-
   @Prop({ required: true })
   line: string;
 

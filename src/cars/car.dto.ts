@@ -4,8 +4,6 @@ import {
   IsNotEmpty,
   IsString,
   IsOptional,
-  IsNumber,
-  IsBoolean,
 } from 'class-validator';
 
 export class CarDTO {
@@ -28,10 +26,6 @@ export class CarDTO {
   @IsString()
   @IsNotEmpty()
   price: string;
-
-  @IsString()
-  @IsOptional()
-  description: string;
 
   @IsString()
   @IsNotEmpty()
@@ -100,11 +94,6 @@ export class UpdateCarDTO {
   @IsString()
   @IsNotEmpty()
   price: string;
-
-  @IsOptional()
-  @IsString()
-  @IsOptional()
-  description: string;
 
   @IsOptional()
   @IsString()
