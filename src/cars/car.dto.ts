@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsString,
   IsOptional,
+  IsNumber,
 } from 'class-validator';
 
 export class CarDTO {
@@ -15,17 +16,17 @@ export class CarDTO {
   @IsNotEmpty()
   line: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  model: string;
+  model: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  kilometers: string;
+  kilometers: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  price: string;
+  price: number;
 
   @IsString()
   @IsNotEmpty()
@@ -43,9 +44,9 @@ export class CarDTO {
   @IsNotEmpty()
   type: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  owners: string;
+  owners: number;
 
   @IsString()
   @IsNotEmpty()
@@ -76,14 +77,14 @@ export class UpdateCarDTO {
   line: string;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  model: string;
+  model: number;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  kilometers: string;
+  kilometers: number;
 
   @IsOptional()
   @IsArray()
@@ -91,9 +92,9 @@ export class UpdateCarDTO {
   images: Array<string>;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  price: string;
+  price: number;
 
   @IsOptional()
   @IsString()
@@ -116,9 +117,9 @@ export class UpdateCarDTO {
   type: string;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  owners: string;
+  owners: number;
 
   @IsOptional()
   @IsString()
