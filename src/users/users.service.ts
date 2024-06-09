@@ -72,6 +72,29 @@ export class UsersService {
     }
   }
 
+  async updateOneUser(id: string, newUserValues: UpdateUserDTO) {
+    try {
+      if (!newUserValues.password) {
+        delete newUserValues.password;
+      } else {
+        newUserValues.password = await this.hashPassword(
+          newUserValues.password,
+        );
+      }
+
+      return await this.userModel
+        .findByIdAndUpdate(id, newUserValues, { new: true })
+        .select({
+          password: 0,
+        });
+    } catch (error) {
+      console.log(error);
+      if (error.message === 'Invalid password to update')
+        throw new BadRequestException(error.message);
+      throw new InternalServerErrorException('Error updating user');
+    }
+  }
+
   async updateUserImage(id: string, image: string) {
     try {
       return await this.userModel.findByIdAndUpdate(id, { image });

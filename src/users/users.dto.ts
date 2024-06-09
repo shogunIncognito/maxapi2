@@ -18,7 +18,6 @@ export class UpdateUserDTO {
   username: string;
 
   @IsString()
-  @IsNotEmpty()
   @IsOptional()
   password: string;
 
