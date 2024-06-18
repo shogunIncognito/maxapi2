@@ -49,6 +49,9 @@ export class Car {
 
   @Prop({ default: false })
   show: boolean;
+
+  @Prop({ default: false })
+  sold: boolean;
 }
 
 export const CarSchema = SchemaFactory.createForClass(Car);

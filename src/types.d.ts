@@ -12,4 +12,5 @@ export interface QueryCar {
   limit: number;
   search?: string;
   show?: string;
+  sold?: string;
 }

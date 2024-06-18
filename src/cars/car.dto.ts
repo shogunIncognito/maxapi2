@@ -63,6 +63,10 @@ export class CarDTO {
   @IsString()
   @IsOptional()
   show: string;
+
+  @IsString()
+  @IsOptional()
+  sold: string;
 }
 
 export class UpdateCarDTO {
@@ -138,4 +142,8 @@ export class UpdateCarDTO {
   @IsOptional()
   @IsString()
   show: string;
+
+  @IsOptional()
+  @IsString()
+  sold: string;
 }

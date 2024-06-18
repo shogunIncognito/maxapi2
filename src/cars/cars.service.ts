@@ -49,9 +49,11 @@ export class CarsService {
       const filter = {
         ...keyword,
         show: query.show ? query.show === 'true' : true,
+        sold: query.sold ? query.sold === 'true' : false,
       };
 
       if (!query.show) delete filter.show;
+      if (!query.sold) delete filter.sold;
 
       const result = await this.CarModel.find(filter)
         .limit(limit)
