@@ -1,18 +1,29 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Car } from 'src/models/Car';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { Brand } from 'src/models/Brands';
 import { upperText } from 'src/utils/upperText';
 import { QueryCar } from 'src/types';
+import { Transaction } from 'src/models/Transaction';
 
 @Injectable()
 export class CarsService {
   constructor(
     @InjectModel(Car.name) private CarModel: Model<Car>,
     @InjectModel(Brand.name) private BrandModel: Model<Brand>,
+    @InjectModel(Transaction.name) private TransactionModel: Model<Transaction>,
   ) {}
+
+  async getCarTransactions(carId: Types.ObjectId) {
+    try {
+      return (await this.TransactionModel.find({ car: carId })).length;
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException('Error getting transactions');
+    }
+  }
 
   async getCars(query: QueryCar) {
     try {
@@ -20,7 +31,7 @@ export class CarsService {
 
       // esto podria ser "search='example' o e.g "model=2020"
       const [filterType, filterValue] =
-        Object.entries(query)[3] || Object.entries(query)[2] || [];
+        Object.entries(query)[2] || Object.entries(query)[3] || [];
 
       const keyword =
         filterType === undefined || !filterValue
@@ -55,10 +66,20 @@ export class CarsService {
       if (!query.show) delete filter.show;
       if (!query.sold) delete filter.sold;
 
-      const result = await this.CarModel.find(filter)
+      const carsPagination = await this.CarModel.find(filter)
         .limit(limit)
         .skip(limit * (page - 1))
         .sort({ createdAt: -1 });
+
+      const result = await Promise.all(
+        carsPagination.map(async (car) => {
+          const carTransactions = await this.getCarTransactions(car._id);
+          return {
+            ...car.toObject(),
+            transactions: carTransactions,
+          };
+        }),
+      );
 
       const totalPages = Math.ceil(
         (await this.CarModel.countDocuments(filter)) / limit,
