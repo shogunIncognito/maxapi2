@@ -14,3 +14,13 @@ export interface QueryCar {
   show?: string;
   sold?: string;
 }
+
+// solo tipando los datos necesarios
+export interface OpenAIResponse {
+  choices: [
+    {
+      message: string;
+      model: string;
+    },
+  ];
+}

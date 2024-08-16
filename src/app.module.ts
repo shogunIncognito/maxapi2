@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { StatsModule } from './stats/stats.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { OpenaiModule } from './openai/openai.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TransactionsModule } from './transactions/transactions.module';
     CarsModule,
     StatsModule,
     TransactionsModule,
+    OpenaiModule,
   ],
   controllers: [AppController],
   providers: [],
