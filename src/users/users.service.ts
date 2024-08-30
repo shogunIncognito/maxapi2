@@ -40,7 +40,14 @@ export class UsersService {
         password: await this.hashPassword(user.password),
         image: null,
       };
-      return await this.userModel.create(newUser);
+
+      const { username, _id, image } = await this.userModel.create(newUser);
+
+      return {
+        _id,
+        username,
+        image,
+      };
     } catch (error) {
       console.log(error);
       throw new InternalServerErrorException('Error creating user');
