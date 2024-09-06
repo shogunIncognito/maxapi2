@@ -58,6 +58,14 @@ export class StatsService {
       return acc;
     }, {});
 
+    // esto añade los días que no tienen views y los pone en 0
+    const lastDay = Math.max(...Object.keys(daysMonthViews).map(Number));
+
+    for (let i = 1; i < lastDay; i++) {
+      if (!daysMonthViews[i]) daysMonthViews[i] = 0;
+    }
+    //
+
     return { viewsMonths, daysMonthViews };
   }
 
