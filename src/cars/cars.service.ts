@@ -31,7 +31,7 @@ export class CarsService {
 
       // esto podria ser "search='example' o e.g "model=2020"
       const [filterType, filterValue] =
-        Object.entries(query)[5] || Object.entries(query)[4] || [];
+        Object.entries(query)[4] || Object.entries(query)[3] || [];
 
       const keyword = searchTerms
         ? {
@@ -50,7 +50,7 @@ export class CarsService {
         : {
             [filterType]: isNaN(Number(filterValue))
               ? { $regex: filterValue, $options: 'i' }
-              : Number(filterValue),
+              : { $lte: Number(filterValue) },
           };
 
       const page = Number(query.page) || 1;
