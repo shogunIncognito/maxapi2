@@ -40,4 +40,8 @@ export class TransactionsService {
       buyer: buyer._id,
     });
   }
+
+  async deleteTransaction(id: string) {
+    return await this.transactionModel.findByIdAndDelete(id);
+  }
 }
