@@ -15,7 +15,6 @@ import {
 import { CarsService } from './cars.service';
 import { CarDTO, UpdateCarDTO } from './car.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
-import { AdminGuard } from 'src/guards/admin.guard';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QueryCar } from 'src/types';
 
@@ -64,7 +63,6 @@ export class CarsController {
     status: 200,
     description: 'Get all brands',
   })
-  @UseGuards(AuthGuard)
   @Get('brands')
   async getBrands() {
     return await this.carsServices.getBrands();
